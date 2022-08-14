@@ -13,11 +13,11 @@ const clearScreen = () => {
   console.clear();
 };
 
+// Converters
+
 const convertToNumber = number => {
   return parseFloat(number);
 };
-
-// Converters
 
 const convertYearToMonth = years => {
   if (years === 0 || isNaN(years)) return 0;
