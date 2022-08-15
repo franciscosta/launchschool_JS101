@@ -64,31 +64,7 @@ const randomNumber = ceil => {
   return Math.floor(Math.random() * ceil);
 };
 
-// ***************
-const playAgain = _ => {
-  const options = ['y', 'yes', 'n', 'no'];
-
-  log(messages.outro);
-  let intent = getInput(messages.playAgain);
-
-  while ( !options.includes(intent) ) {
-    log(messages.invalid);
-    intent = getInput(messages.playAgain);
-  }
-  return intent[0] === 'y';
-};
-
 // ****************
-const resetGame = _ => {
-  game.hand.user = null;
-  game.hand.computer = null;
-  game.tally.roundsThusFar = 0;
-  game.tally.userPoints = 0;
-  game.tally.computerPoints = 0;
-  game.tally.roundWinner = null;
-  game.tally.grandWinner = null;
-};
-
 const isValidRound = _ => {
   return game.tally.roundsThusFar < game.tally.maxRounds;
 };
@@ -210,6 +186,31 @@ const logGrandWinner = _ => {
   }
 
   log(messages.separator);
+};
+
+
+// ***************
+const playAgain = _ => {
+  const options = ['y', 'yes', 'n', 'no'];
+
+  log(messages.outro);
+  let intent = getInput(messages.playAgain);
+
+  while ( !options.includes(intent) ) {
+    log(messages.invalid);
+    intent = getInput(messages.playAgain);
+  }
+  return intent[0] === 'y';
+};
+
+const resetGame = _ => {
+  game.hand.user = null;
+  game.hand.computer = null;
+  game.tally.roundsThusFar = 0;
+  game.tally.userPoints = 0;
+  game.tally.computerPoints = 0;
+  game.tally.roundWinner = null;
+  game.tally.grandWinner = null;
 };
 
 // ***************
