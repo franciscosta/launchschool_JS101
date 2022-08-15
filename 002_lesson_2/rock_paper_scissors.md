@@ -1,26 +1,34 @@
 
-# Problem
+## Top-level Parts:
 
-  1. Two people choose a move 
-  2. Moves supercede each other such that one person wins
-  3. After you play, the playing re-starts
-  4. You can play endlessly
+  1. User makes a choice
+  2. Computer makes a choice
+  3. Display the winner
+  4. Ask to play again
 
-# Moves
+  Spock rules:
+  1. Rock -> Scissors, Lizard
+  2. Paper -> Rock, Spock 
+  3. Scissors -> Paper, Lizard
+  4. Spock -> Scissors, Rock 
+  5. Lizard -> Paper, Spock 
 
-  1. Paper eats rock
-  2. Rock crashes scissor
-  3. Scissor cuts paper 
+## Data Structure
 
-  Such that:
+  1. Object to store the abstract components of the game
+    a. options
+    b. the ways each option can be written 
+    c. winning states
 
-  1 (paper) > 2 (rock) > 3 (scissor) 
-  but 3 (scissor) > 1 (paper)
+  2. How can I structure possible outputs in such a way that:
+    a. 'r' 'ro' 'roc' 'rock' all map to rock
+    
+    b. States for this: invalid, confirm, option 
+
+  3. Detect winner
+  a. Take two hands: user, computer 
+  b. If they are the same: 
+  
 
 
-# Algorithm:
-
-  1. Ask user for their move
-  2. Get the computer's move 
-  3. Display who won the result
 
