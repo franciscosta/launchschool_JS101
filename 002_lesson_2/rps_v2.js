@@ -1,3 +1,4 @@
+// ****************
 const game = {
 
   hands: {
@@ -50,20 +51,31 @@ const log = message => {
   console.log(message);
 };
 
-// ****************
 const clear = _ => {
   console.clear();
 };
 
-// ****************
 const getInput = question => {
   const readline = require('readline-sync');
   return readline.question(question).toLowerCase();
 };
 
-// ****************
 const randomNumber = ceil => {
   return Math.floor(Math.random() * ceil);
+};
+
+// ***************
+const playAgain = _ => {
+  const options = ['y', 'yes', 'n', 'no'];
+
+  log(messages.outro);
+  let intent = getInput(messages.playAgain);
+
+  while ( !options.includes(intent) ) {
+    log(messages.invalid);
+    intent = getInput(messages.playAgain);
+  }
+  return intent[0] === 'y';
 };
 
 // ****************
@@ -77,21 +89,18 @@ const resetGame = _ => {
   game.tally.grandWinner = null;
 };
 
-// ***************
 const isValidRound = _ => {
   return game.tally.roundsThusFar < game.tally.maxRounds;
 };
 
-// ****************
 const getAllHands = _ => {
   return [...Object.keys(game.hands)];
 };
 
-// ****************
 const detectHand = input => {
-  let hand;
-
   if (input === 's') return 'confirm';
+
+  let hand;
 
   getAllHands().forEach( option => {
     if (input === option || input === option[0]) hand = option;
@@ -102,7 +111,6 @@ const detectHand = input => {
   return hand;
 };
 
-// ****************
 const handIsInvalid = hand => {
   return ['invalid', 'confirm'].includes(hand);
 };
@@ -120,7 +128,6 @@ const setUserHand = _ => {
   game.hand.user = hand;
 };
 
-// ****************
 const setComputerHand = _ => {
   const possibleHands = getAllHands();
   const randomChoice = randomNumber(possibleHands.length);
@@ -128,7 +135,7 @@ const setComputerHand = _ => {
 };
 
 // ****************
-const computeWinner = _ => {
+const computeRoundWinner = _ => {
   const user = game.hand.user;
   const computer = game.hand.computer;
 
@@ -137,15 +144,6 @@ const computeWinner = _ => {
   return 'Computer';
 };
 
-// ***************
-const updateTally = _ => {
-  game.tally.roundWinner = computeWinner();
-  game.tally.roundsThusFar += 1;
-  if (game.tally.roundWinner === 'You') game.tally.userPoints += 1;
-  if (game.tally.roundWinner === 'Computer') game.tally.computerPoints += 1;
-};
-
-// **************
 const computeGrandWinner = _ => {
   const user = game.tally.userPoints;
   const computer = game.tally.computerPoints;
@@ -162,6 +160,13 @@ const playRound = _ => {
   updateTally();
 };
 
+const updateTally = _ => {
+  game.tally.roundWinner = computeRoundWinner();
+  game.tally.roundsThusFar += 1;
+  if (game.tally.roundWinner === 'You') game.tally.userPoints += 1;
+  if (game.tally.roundWinner === 'Computer') game.tally.computerPoints += 1;
+};
+
 // ****************
 const logWelcome = _ => {
   clear();
@@ -171,7 +176,6 @@ const logWelcome = _ => {
   log(messages.separator);
 };
 
-// ****************
 const logTally = _ => {
   const user = game.tally.userPoints;
   const computer = game.tally.computerPoints;
@@ -180,7 +184,6 @@ const logTally = _ => {
   log(messages.separator);
 };
 
-// ***************
 const logRoundWinner = _ => {
   const winner = game.tally.roundWinner;
 
@@ -197,7 +200,6 @@ const logRoundWinner = _ => {
 
 };
 
-// ***************
 const logGrandWinner = _ => {
   const winner = game.tally.grandWinner;
 
@@ -208,20 +210,6 @@ const logGrandWinner = _ => {
   }
 
   log(messages.separator);
-};
-
-// ***************
-const playAgain = _ => {
-  const options = ['y', 'yes', 'n', 'no'];
-
-  log(messages.outro);
-  let intent = getInput(messages.playAgain);
-
-  while ( !options.includes(intent) ) {
-    log(messages.invalid);
-    intent = getInput(messages.playAgain);
-  }
-  return intent[0] === 'y';
 };
 
 // ***************
@@ -242,7 +230,6 @@ const rockPaperScissor = _ => {
     logGrandWinner();
 
     userWantsToPlay = playAgain();
-    log(messages.separator);
     resetGame();
   }
 
