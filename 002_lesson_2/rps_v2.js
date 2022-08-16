@@ -115,9 +115,13 @@ const computeRoundWinner = _ => {
   const user = game.hand.user;
   const computer = game.hand.computer;
 
-  if (user === computer) return 'tie';
-  if (game.hands[user].wins.includes(computer)) return 'You';
-  return 'Computer';
+  if (user === computer) {
+    game.tally.roundWinner = 'tie';
+  } else if (game.hands[user].wins.includes(computer)) {
+    game.tally.roundWinner = 'You';
+  } else {
+    game.tally.roundWinner = 'Computer'
+  }
 };
 
 const computeGrandWinner = _ => {
@@ -129,18 +133,18 @@ const computeGrandWinner = _ => {
   if (user < computer) game.tally.grandWinner = 'Computer';
 };
 
+const updatePoints = _ => {
+  game.tally.roundsThusFar += 1;
+  if (game.tally.roundWinner === 'You') game.tally.userPoints += 1;
+  if (game.tally.roundWinner === 'Computer') game.tally.computerPoints += 1;
+};
+
 // ***************
 const playRound = _ => {
   setUserHand();
   setComputerHand();
-  updateTally();
-};
-
-const updateTally = _ => {
-  game.tally.roundWinner = computeRoundWinner();
-  game.tally.roundsThusFar += 1;
-  if (game.tally.roundWinner === 'You') game.tally.userPoints += 1;
-  if (game.tally.roundWinner === 'Computer') game.tally.computerPoints += 1;
+  computeRoundWinner();
+  updatePoints();
 };
 
 // ****************
@@ -149,14 +153,6 @@ const logWelcome = _ => {
   log(messages.welcome);
   log(messages.whatGame);
   log(messages.information);
-  log(messages.separator);
-};
-
-const logTally = _ => {
-  const user = game.tally.userPoints;
-  const computer = game.tally.computerPoints;
-  log(messages.tallyDisplay + `You: ${user} | Computer: ${computer}`);
-  log(messages.roundDisplay + `${game.tally.roundsThusFar} / ${game.tally.maxRounds}`);
   log(messages.separator);
 };
 
@@ -171,9 +167,14 @@ const logRoundWinner = _ => {
   } else {
     log(messages.roundWinner + winner);
   }
+};
 
-  logTally();
-
+const logTally = _ => {
+  const user = game.tally.userPoints;
+  const computer = game.tally.computerPoints;
+  log(messages.tallyDisplay + `You: ${user} | Computer: ${computer}`);
+  log(messages.roundDisplay + `${game.tally.roundsThusFar} / ${game.tally.maxRounds}`);
+  log(messages.separator);
 };
 
 const logGrandWinner = _ => {
@@ -225,6 +226,7 @@ const rockPaperScissor = _ => {
     while (isValidRound()) {
       playRound();
       logRoundWinner();
+      logTally();
     }
 
     computeGrandWinner();
