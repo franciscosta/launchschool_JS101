@@ -120,7 +120,7 @@ const computeRoundWinner = _ => {
   } else if (game.hands[user].wins.includes(computer)) {
     game.tally.roundWinner = 'You';
   } else {
-    game.tally.roundWinner = 'Computer'
+    game.tally.roundWinner = 'Computer';
   }
 };
 
