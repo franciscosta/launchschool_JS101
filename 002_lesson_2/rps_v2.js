@@ -157,15 +157,13 @@ const logWelcome = _ => {
 };
 
 const logRoundWinner = _ => {
-  const winner = game.tally.roundWinner;
-
   log(messages.userChoice + game.hand.user);
   log(messages.computerChoice + game.hand.computer);
 
-  if (winner === 'tie') {
+  if (game.tally.roundWinner === 'tie') {
     log(messages.roundTie);
   } else {
-    log(messages.roundWinner + winner);
+    log(messages.roundWinner + game.tally.roundWinner);
   }
 };
 
@@ -178,12 +176,10 @@ const logTally = _ => {
 };
 
 const logGrandWinner = _ => {
-  const winner = game.tally.grandWinner;
-
-  if (winner === 'tie') {
+  if (game.tally.grandWinner === 'tie') {
     log(messages.grandTie);
   } else {
-    log(messages.grandWinner + winner);
+    log(messages.grandWinner + game.tally.roundWinner);
   }
 
   log(messages.separator);
